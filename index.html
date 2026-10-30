@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>NovaStruct AI - المحرك الإنشائي الذكي</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #38bdf8;
+            --text-color: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --success-color: #4ade80;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 16px;
+            direction: rtl;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .input-group input, .input-group select {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            width: 100%;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-submit:active {
+            opacity: 0.8;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-value {
+            font-weight: bold;
+            color: var(--success-color);
+        }
+
+        .highlight-box {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-right: 3px solid var(--accent-color);
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>NovaStruct AI 🏗️</h1>
+        <p>المحرك الهندسي الذكي للتحليل والتصميم الإنشائي</p>
+    </div>
+
+    <!-- بطاقة المدخلات التفاعلية -->
+    <div class="card">
+        <div class="card-title">📐 إدخال أبعاد المبنى</div>
+        
+        <div class="grid-2">
+            <div class="input-group">
+                <label for="width">العرض (الواجهة - متر):</label>
+                <input type="number" id="width" value="15" step="0.5" min="1">
+            </div>
+            <div class="input-group">
+                <label for="length">الطول (النزال - متر):</label>
+                <input type="number" id="length" value="20" step="0.5" min="1">
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="input-group">
+                <label for="stories">عدد الطوابق:</label>
+                <input type="number" id="stories" value="10" min="1" max="50">
+            </div>
+            <div class="input-group">
+                <label for="useType">غرض الاستخدام:</label>
+                <select id="useType">
+                    <option value="office">مكاتب / تجاري</option>
+                    <option value="residential">سكني</option>
+                </select>
+            </div>
+        </div>
+
+        <button class="btn-submit" onclick="calculateDesign()">⚡ تشغيل التصميم والحسابات</button>
+    </div>
+
+    <!-- بطاقة نتائج الأحمال -->
+    <div class="card">
+        <div class="card-title">📊 1. تجميع الأحمال الإجمالية</div>
+        <div class="result-row">
+            <span>مساحة الطابق الواحد:</span>
+            <span class="result-value" id="resArea">0 م²</span>
+        </div>
+        <div class="result-row">
+            <span>الحمل الميت التراكمي:</span>
+            <span class="result-value" id="resDead">0 kN</span>
+        </div>
+        <div class="result-row">
+            <span>الحمل الحي المخفض:</span>
+            <span class="result-value" id="resLive">0 kN</span>
+        </div>
+        <div class="result-row">
+            <span>الحمل التصميمي الأقصى (Pu):</span>
+            <span class="result-value" id="resPu">0 kN (~0 طن)</span>
+        </div>
+    </div>
+
+    <!-- بطاقة تصميم الأعمدة -->
+    <div class="card">
+        <div class="card-title">🏛️ 2. تصميم مقاطع الأعمدة (الطوابق السفلى)</div>
+        <div class="result-row">
+            <span>أبعاد مقطع العمود:</span>
+            <span class="result-value" id="resColSize">0 × 0 ملم</span>
+        </div>
+        <div class="result-row">
+            <span>حديد التسليح الطولي:</span>
+            <span class="result-value" id="resColRebar">-</span>
+        </div>
+        <div class="result-row">
+            <span>الأطواق (الكانيات):</span>
+            <span class="result-value" id="resColTies">-</span>
+        </div>
+    </div>
+
+    <!-- بطاقة تصميم اللبشة والتربة -->
+    <div class="card">
+        <div class="card-title">🧩 3. تصميم اللبشة (Raft Foundation) والتربة</div>
+        <div class="result-row">
+            <span>أبعاد ومساحة اللبشة:</span>
+            <span class="result-value" id="resRaftArea">0 م²</span>
+        </div>
+        <div class="result-row">
+            <span>إجهاد التلامس الفعلي:</span>
+            <span class="result-value" id="resSoilPressure">0 kPa</span>
+        </div>
+        <div class="result-row">
+            <span>سمك اللبشة المعتمد:</span>
+            <span class="result-value" id="resRaftThick">0 مم</span>
+        </div>
+        <div class="result-row">
+            <span>الشبكة السفلية:</span>
+            <span class="result-value" id="resBotMesh">-</span>
+        </div>
+        <div class="result-row">
+            <span>الشبكة العلوية:</span>
+            <span class="result-value" id="resTopMesh">-</span>
+        </div>
+        <div class="highlight-box" id="resSoilStatus">
+            حالة التربة: بانتظار إدخال البيانات...
+        </div>
+    </div>
+
+    <script>
+        function calculateDesign() {
+            // جلب البيانات من خانات الإدخال
+            const width = parseFloat(document.getElementById('width').value) || 0;
+            const length = parseFloat(document.getElementById('length').value) || 0;
+            const stories = parseInt(document.getElementById('stories').value) || 0;
+            const useType = document.getElementById('useType').value;
+
+            // 1. حسابات الأحمال
+            const floorArea = width * length;
+            const selfWeight = 0.18 * 25.0; // 4.5 kN/m²
+            const sdl = 4.0; // kN/m²
+            const ll = useType === 'office' ? 3.5 : 3.0;
+
+            const totalDeadSqm = selfWeight + sdl;
+            const floorDeadTotal = totalDeadSqm * floorArea;
+            const floorLiveTotal = ll * floorArea;
+
+            const cumulativeDead = floorDeadTotal * stories;
+            const liveReductionFactor = Math.max(0.5, 1.0 - (stories * 0.05));
+            const cumulativeLive = floorLiveTotal * stories * liveReductionFactor;
+
+            const puTotal = (1.2 * cumulativeDead) + (1.6 * cumulativeLive);
+            const puTonnes = puTotal / 9.81;
+
+            // عرض نتائج الأحمال
+            document.getElementById('resArea').innerText = floorArea.toFixed(1) + ' م²';
+            document.getElementById('resDead').innerText = cumulativeDead.toFixed(1) + ' kN';
+            document.getElementById('resLive').innerText = cumulativeLive.toFixed(1) + ' kN';
+            document.getElementById('resPu').innerText = puTotal.toFixed(1) + ' kN (~' + puTonnes.toFixed(0) + ' طن)';
+
+            // 2. تصميم الأعمدة (افتراض 20 عمود)
+            const colPu = puTotal / 20;
+            let colSize = "350 × 350 ملم";
+            let colRebar = "8 Φ 16 مم";
+            let colTies = "Φ 10 مم لكل 200 مم";
+
+            if (colPu > 3000) {
+                colSize = "500 × 600 ملم";
+                colRebar = "12 Φ 20 مم";
+                colTies = "Φ 10 مم لكل 150 مم";
+            } else if (colPu > 1500) {
+                colSize = "450 × 450 ملم";
+                colRebar = "8 Φ 20 مم";
+                colTies = "Φ 10 مم لكل 150 مم";
+            }
+
+            document.getElementById('resColSize').innerText = colSize;
+            document.getElementById('resColRebar').innerText = colRebar;
+            document.getElementById('resColTies').innerText = colTies;
+
+            // 3. تصميم اللبشة والتربة
+            const raftWidth = width + 1.0;
+            const raftLength = length + 1.0;
+            const raftArea = raftWidth * raftLength;
+            
+            const serviceLoad = puTotal / 1.4;
+            const actualPressure = serviceLoad / raftArea;
+            const allowablePressure = 180.0; // kPa
+
+            document.getElementById('resRaftArea').innerText = raftArea.toFixed(1) + ' م² (' + raftWidth + '×' + raftLength + ' م)';
+            document.getElementById('resRaftPressure').innerText = actualPressure.toFixed(1) + ' kPa';
+            
+            let raftThick = 600;
+            if (stories > 12) raftThick = 1200;
+            else if (stories > 7) raftThick = 900;
+
+            document.getElementById('resRaftThick').innerText = raftThick + ' مم';
+            document.getElementById('resBotMesh').innerText = 'Φ 20 مم لكل 150 مم (اتجاهين)';
+            document.getElementById('resTopMesh').innerText = 'Φ 18 مم لكل 150 مم (اتجاهين)';
+
+            if (actualPressure <= allowablePressure) {
+                document.getElementById('resSoilStatus').innerText = '✅ حالة التربة: آمنة تماماً (الإجهاد الفعلي ' + actualPressure.toFixed(1) + ' kPa أقل من المسموح ' + allowablePressure + ' kPa)';
+                document.getElementById('resSoilStatus').style.borderColor = '#4ade80';
+            } else {
+                document.getElementById('resSoilStatus').innerText = '⚠️ حالة التربة: يتجاوز التحمل المسموح! يفضل زيادة أبعاد اللبشة أو تعديل نوع التأسيس.';
+                document.getElementById('resSoilStatus').style.borderColor = '#f87171';
+            }
+        }
+
+        // تشغيل الحسابات تلقائياً عند فتح الصفحة
+        calculateDesign();
+    </script>
+</body>
+</html>
