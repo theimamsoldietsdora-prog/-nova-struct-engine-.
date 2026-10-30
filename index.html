@@ -2,10 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>NovaStruct AI - المحرك الإنشائي الذكي</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaStruct AI - المحرك الهندسي الذكي المتكامل</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -16,316 +14,291 @@
             --border-color: #334155;
             --success-color: #4ade80;
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 16px;
             direction: rtl;
         }
-
-        .header {
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header {
             text-align: center;
             padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
         }
-
-        .header h1 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--accent-color);
-        }
-
-        .header p {
-            margin: 5px 0 0;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
+        h1 { margin: 0; color: var(--accent-color); font-size: 24px; }
+        p.sub { color: var(--text-secondary); font-size: 14px; margin-top: 5px; }
         .card {
             background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: var(--accent-color);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .input-group label {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .input-group input, .input-group select {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 10px 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .input-group input:focus {
-            border-color: var(--accent-color);
-        }
-
-        .grid-2 {
+        h3 { margin-top: 0; color: var(--accent-color); border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 15px;
         }
-
-        .btn-submit {
-            background-color: var(--accent-color);
-            color: #000;
+        @media (max-width: 600px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+        .input-group {
+            margin-bottom: 12px;
+        }
+        label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 5px; }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+        button.btn-primary {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: white;
             border: none;
             padding: 14px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 1rem;
             width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
             transition: opacity 0.2s;
         }
-
-        .btn-submit:active {
-            opacity: 0.8;
-        }
-
+        button.btn-primary:active { opacity: 0.8; }
         .result-row {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            font-size: 0.9rem;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 14px;
         }
-
-        .result-row:last-child {
-            border-bottom: none;
-        }
-
-        .result-value {
-            font-weight: bold;
-            color: var(--success-color);
-        }
-
-        .highlight-box {
-            background-color: rgba(56, 189, 248, 0.1);
-            border-right: 3px solid var(--accent-color);
-            padding: 10px;
-            border-radius: 4px;
+        .result-row span:last-child { font-weight: bold; color: var(--success-color); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin-top: 10px;
-            font-size: 0.85rem;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+        }
+        th { background-color: #0f172a; color: var(--accent-color); }
+        .print-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        @media print {
+            body { background: white; color: black; }
+            .card { background: white; border: 1px solid #ccc; box-shadow: none; color: black; }
+            input, select { background: white; color: black; border: 1px solid #ccc; }
+            button { display: none; }
+            th { background-color: #eee !important; color: black !important; }
+            .result-row span:last-child { color: black; }
         }
     </style>
 </head>
 <body>
+<div class="container">
+    <header>
+        <h1>NovaStruct AI - المحرك الهندسي الشامل</h1>
+        <p class="sub">نظام التصميم الإنشائي، تفاصيل التسليح، وحساب الكميات المتقدم</p>
+    </header>
 
-    <div class="header">
-        <h1>NovaStruct AI 🏗️</h1>
-        <p>المحرك الهندسي الذكي للتحليل والتصميم الإنشائي</p>
-    </div>
-
-    <!-- بطاقة المدخلات التفاعلية -->
+    <!-- إدخال البيانات -->
     <div class="card">
-        <div class="card-title">📐 إدخال أبعاد المبنى</div>
-        
-        <div class="grid-2">
+        <h3>1. المدخلات الإنشائية للمشروع</h3>
+        <div class="form-grid">
             <div class="input-group">
-                <label for="width">العرض (الواجهة - متر):</label>
-                <input type="number" id="width" value="15" step="0.5" min="1">
+                <label>عرض الواجهة (متر):</label>
+                <input type="number" id="width" value="20">
             </div>
             <div class="input-group">
-                <label for="length">الطول (النزال - متر):</label>
-                <input type="number" id="length" value="20" step="0.5" min="1">
-            </div>
-        </div>
-
-        <div class="grid-2">
-            <div class="input-group">
-                <label for="stories">عدد الطوابق:</label>
-                <input type="number" id="stories" value="10" min="1" max="50">
+                <label>النزال / الطول (متر):</label>
+                <input type="number" id="length" value="30">
             </div>
             <div class="input-group">
-                <label for="useType">غرض الاستخدام:</label>
-                <select id="useType">
-                    <option value="office">مكاتب / تجاري</option>
-                    <option value="residential">سكني</option>
+                <label>عدد الطوابق:</label>
+                <input type="number" id="stories" value="10">
+            </div>
+            <div class="input-group">
+                <label>مقاومة خرسانة الضغط ($f'_c$):</label>
+                <select id="concreteGrade">
+                    <option value="30">C30 (مقاومة 30 MPa)</option>
+                    <option value="35" selected>C35 (مقاومة 35 MPa)</option>
+                    <option value="40">C40 (مقاومة 40 MPa)</option>
                 </select>
             </div>
+            <div class="input-group">
+                <label>نوع الاستخدام:</label>
+                <select id="useCase">
+                    <option value="residential">سكني (حمل حي 2.0 kN/m²)</option>
+                    <option value="commercial">تجاري / مكاتب (حمل حي 4.0 kN/m²)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>تحمل التربة (Bearing Capacity):</label>
+                <input type="text" value="2.0 kg/cm²" disabled style="color:var(--success-color)">
+            </div>
         </div>
-
-        <button class="btn-submit" onclick="calculateDesign()">⚡ تشغيل التصميم والحسابات</button>
+        <button class="btn-primary" onclick="runCompleteDesign()">⚡ تشغيل المحرك الحسابي الشامل وتوليد النتائج</button>
     </div>
 
-    <!-- بطاقة نتائج الأحمال -->
-    <div class="card">
-        <div class="card-title">📊 1. تجميع الأحمال الإجمالية</div>
-        <div class="result-row">
-            <span>مساحة الطابق الواحد:</span>
-            <span class="result-value" id="resArea">0 م²</span>
-        </div>
-        <div class="result-row">
-            <span>الحمل الميت التراكمي:</span>
-            <span class="result-value" id="resDead">0 kN</span>
-        </div>
-        <div class="result-row">
-            <span>الحمل الحي المخفض:</span>
-            <span class="result-value" id="resLive">0 kN</span>
-        </div>
-        <div class="result-row">
-            <span>الحمل التصميمي الأقصى (Pu):</span>
-            <span class="result-value" id="resPu">0 kN (~0 طن)</span>
-        </div>
+    <!-- نتائج التصميم الإنشائي وتفاصيل التسليح -->
+    <div class="card" id="designResults" style="display:none;">
+        <h3>2. نتائج التصميم الإنشائي وتفاصيل التسليح</h3>
+        <div class="result-row"><span>مساحة الطابق الواحد:</span><span id="resArea">0 م²</span></div>
+        <div class="result-row"><span>الحمل الميت التراكمي (Dead Load):</span><span id="resDL">0 kN</span></div>
+        <div class="result-row"><span>الحمل الحي المخفض (Live Load):</span><span id="resLL">0 kN</span></div>
+        <div class="result-row"><span>الحمل التصميمي الأقصى ($P_u$):</span><span id="resPu">0 kN</span></div>
+        
+        <h4 style="color:var(--accent-color); margin-top:15px;">مقاطع العناصر الإنشائية:</h4>
+        <div class="result-row"><span>أبعاد أعمدة الطوابق السفلى:</span><span id="resColSize">-</span></div>
+        <div class="result-row"><span>تسليح الأعمدة الطولي:</span><span id="resColSteel">-</span></div>
+        <div class="result-row"><span>أتاري الأعمدة (الكانات):</span><span id="resStirrups">-</span></div>
+        <div class="result-row"><span>أبعاد الجسور الرئيسية (Beams):</span><span id="resBeamSize">-</span></div>
+        <div class="result-row"><span>سمك السقف الخرساني (Slab Thickness):</span><span id="resSlabThick">-</span></div>
+        <div class="result-row"><span>سمك وتصميم الرفت الأساسية (Raft Foundation):</span><span id="resRaft">-</span></div>
     </div>
 
-    <!-- بطاقة تصميم الأعمدة -->
-    <div class="card">
-        <div class="card-title">🏛️ 2. تصميم مقاطع الأعمدة (الطوابق السفلى)</div>
-        <div class="result-row">
-            <span>أبعاد مقطع العمود:</span>
-            <span class="result-value" id="resColSize">0 × 0 ملم</span>
-        </div>
-        <div class="result-row">
-            <span>حديد التسليح الطولي:</span>
-            <span class="result-value" id="resColRebar">-</span>
-        </div>
-        <div class="result-row">
-            <span>الأطواق (الكانيات):</span>
-            <span class="result-value" id="resColTies">-</span>
-        </div>
+    <!-- جدول الكميات المتكامل (BOQ) -->
+    <div class="card" id="boqSection" style="display:none;">
+        <h3>3. جدول الكميات المتكامل (Bill of Quantities)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>البند الإنشائي</th>
+                    <th>الوحدة</th>
+                    <th>الكمية الإجمالية</th>
+                    <th>ملاحظات المواصفات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>الخرسانة المسلحة للأساسات (Raft)</td>
+                    <td>متر مكعب ($m^3$)</td>
+                    <td id="boqRaftConcrete">0</td>
+                    <td>مقاومة C35 مع إضافات عزل</td>
+                </tr>
+                <tr>
+                    <td>خرسانة الأعمدة لجميع الطوابق</td>
+                    <td>متر مكعب ($m^3$)</td>
+                    <td id="boqColConcrete">0</td>
+                    <td>مقاومة C35 / C40</td>
+                </tr>
+                <tr>
+                    <td>خرسانة الأسقف والجسور</td>
+                    <td>متر مكعب ($m^3$)</td>
+                    <td id="boqSlabConcrete">0</td>
+                    <td>تصميم هوردي أو سوليد</td>
+                </tr>
+                <tr>
+                    <td>حديد التسليح الإجمالي (أعمدة + جسور + أساسات)</td>
+                    <td>طن (Ton)</td>
+                    <td id="boqSteelWeight">0</td>
+                    <td>حديد عالي المقاومة Grade 60</td>
+                </tr>
+                <tr>
+                    <td>طوبار / قالب الخشب (Formwork)</td>
+                    <td>متر مربع ($m^2$)</td>
+                    <td id="boqFormwork">0</td>
+                    <td>للأسقف والأعمدة والجسور</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <button class="print-btn" onclick="window.print()">🖨️ طباعة التقرير وتصدير الملف كـ PDF</button>
     </div>
+</div>
 
-    <!-- بطاقة تصميم اللبشة والتربة -->
-    <div class="card">
-        <div class="card-title">🧩 3. تصميم اللبشة (Raft Foundation) والتربة</div>
-        <div class="result-row">
-            <span>أبعاد ومساحة اللبشة:</span>
-            <span class="result-value" id="resRaftArea">0 م²</span>
-        </div>
-        <div class="result-row">
-            <span>إجهاد التلامس الفعلي:</span>
-            <span class="result-value" id="resSoilPressure">0 kPa</span>
-        </div>
-        <div class="result-row">
-            <span>سمك اللبشة المعتمد:</span>
-            <span class="result-value" id="resRaftThick">0 مم</span>
-        </div>
-        <div class="result-row">
-            <span>الشبكة السفلية:</span>
-            <span class="result-value" id="resBotMesh">-</span>
-        </div>
-        <div class="result-row">
-            <span>الشبكة العلوية:</span>
-            <span class="result-value" id="resTopMesh">-</span>
-        </div>
-        <div class="highlight-box" id="resSoilStatus">
-            حالة التربة: بانتظار إدخال البيانات...
-        </div>
-    </div>
+<script>
+function runCompleteDesign() {
+    const width = parseFloat(document.getElementById('width').value);
+    const length = parseFloat(document.getElementById('length').value);
+    const stories = parseInt(document.getElementById('stories').value);
+    const concreteGrade = document.getElementById('concreteGrade').value;
+    const useCase = document.getElementById('useCase').value;
 
-    <script>
-        function calculateDesign() {
-            // جلب البيانات من خانات الإدخال
-            const width = parseFloat(document.getElementById('width').value) || 0;
-            const length = parseFloat(document.getElementById('length').value) || 0;
-            const stories = parseInt(document.getElementById('stories').value) || 0;
-            const useType = document.getElementById('useType').value;
+    if (!width || !length || !stories) {
+        alert("يرجى إدخال جميع الأبعاد بشكل صحيح.");
+        return;
+    }
 
-            // 1. حسابات الأحمال
-            const floorArea = width * length;
-            const selfWeight = 0.18 * 25.0; // 4.5 kN/m²
-            const sdl = 4.0; // kN/m²
-            const ll = useType === 'office' ? 3.5 : 3.0;
+    // حساب المساحات والأحمال
+    const area = width * length;
+    const deadLoadPerSquare = 12; // kN/m2 cumulative estimate
+    const liveLoadFactor = useCase === 'commercial' ? 4.0 : 2.0;
+    const totalDL = area * deadLoadPerSquare * stories;
+    const totalLL = area * liveLoadFactor * stories * 0.7; // Reduction factor
+    const Pu = 1.2 * totalDL + 1.6 * totalLL;
+    const PuTon = (Pu / 9.81).toFixed(0);
 
-            const totalDeadSqm = selfWeight + sdl;
-            const floorDeadTotal = totalDeadSqm * floorArea;
-            const floorLiveTotal = ll * floorArea;
+    // تصميم الأعمدة السفلى
+    let colWidth = width > 25 ? 700 : 600;
+    let colDepth = length > 25 ? 700 : 500;
+    let barCount = Math.round(Pu / 1500) + 8;
+    if (barCount < 12) barCount = 12;
 
-            const cumulativeDead = floorDeadTotal * stories;
-            const liveReductionFactor = Math.max(0.5, 1.0 - (stories * 0.05));
-            const cumulativeLive = floorLiveTotal * stories * liveReductionFactor;
+    // تصميم الرفت والأساسات
+    const raftThickness = Math.max(500, stories * 70); // mm
 
-            const puTotal = (1.2 * cumulativeDead) + (1.6 * cumulativeLive);
-            const puTonnes = puTotal / 9.81;
+    // جدول الكميات
+    const raftConcreteVol = (area * (raftThickness / 1000)).toFixed(1);
+    const colConcreteVol = (stories * (colWidth/1000) * (colDepth/1000) * 3.2 * (area / 25)).toFixed(1);
+    const slabConcreteVol = (stories * area * 0.25).toFixed(1);
+    const totalSteelTon = ((parseFloat(raftConcreteVol) + parseFloat(colConcreteVol) + parseFloat(slabConcreteVol)) * 0.12).toFixed(2);
+    const formworkArea = ((area * stories * 2.2) + (perimeter(width, length) * stories * 3.2)).toFixed(1);
 
-            // عرض نتائج الأحمال
-            document.getElementById('resArea').innerText = floorArea.toFixed(1) + ' م²';
-            document.getElementById('resDead').innerText = cumulativeDead.toFixed(1) + ' kN';
-            document.getElementById('resLive').innerText = cumulativeLive.toFixed(1) + ' kN';
-            document.getElementById('resPu').innerText = puTotal.toFixed(1) + ' kN (~' + puTonnes.toFixed(0) + ' طن)';
+    // عرض النتائج
+    document.getElementById('resArea').innerText = area + " م²";
+    document.getElementById('resDL').innerText = totalDL.toLocaleString() + " kN";
+    document.getElementById('resLL').innerText = totalLL.toLocaleString() + " kN";
+    document.getElementById('resPu').innerText = Pu.toLocaleString() + " kN (~ " + PuTon + " طن)";
+    
+    document.getElementById('resColSize').innerText = colWidth + " × " + colDepth + " ملم";
+    document.getElementById('resColSteel').innerText = barCount + " قضيب بقطر Φ 25 ملم";
+    document.getElementById('resStirrups').innerText = "Φ 12 ملم لكل 120 ملم";
+    document.getElementById('resBeamSize').innerText = "400 × 700 ملم (تسليح علوي وسفلي متطور)";
+    document.getElementById('resSlabThick').innerText = "سمك 250 ملم (مع شبكة حديد Φ 14 لكل 150 ملم)";
+    document.getElementById('resRaft').innerText = "سمك " + raftThickness + " ملم (فرشة سفلى وعليا Φ 20 لكل 150 ملم)";
 
-            // 2. تصميم الأعمدة (افتراض 20 عمود)
-            const colPu = puTotal / 20;
-            let colSize = "350 × 350 ملم";
-            let colRebar = "8 Φ 16 مم";
-            let colTies = "Φ 10 مم لكل 200 مم";
+    // تعبئة جدول الكميات
+    document.getElementById('boqRaftConcrete').innerText = raftConcreteVol + " م³";
+    document.getElementById('boqColConcrete').innerText = colConcreteVol + " م³";
+    document.getElementById('boqSlabConcrete').innerText = slabConcreteVol + " م³";
+    document.getElementById('boqSteelWeight').innerText = totalSteelTon + " طن";
+    document.getElementById('boqFormwork').innerText = formworkArea + " م²";
 
-            if (colPu > 3000) {
-                colSize = "500 × 600 ملم";
-                colRebar = "12 Φ 20 مم";
-                colTies = "Φ 10 مم لكل 150 مم";
-            } else if (colPu > 1500) {
-                colSize = "450 × 450 ملم";
-                colRebar = "8 Φ 20 مم";
-                colTies = "Φ 10 مم لكل 150 مم";
-            }
+    document.getElementById('designResults').style.display = 'block';
+    document.getElementById('boqSection').style.display = 'block';
+}
 
-            document.getElementById('resColSize').innerText = colSize;
-            document.getElementById('resColRebar').innerText = colRebar;
-            document.getElementById('resColTies').innerText = colTies;
-
-            // 3. تصميم اللبشة والتربة
-            const raftWidth = width + 1.0;
-            const raftLength = length + 1.0;
-            const raftArea = raftWidth * raftLength;
-            
-            const serviceLoad = puTotal / 1.4;
-            const actualPressure = serviceLoad / raftArea;
-            const allowablePressure = 180.0; // kPa
-
-            document.getElementById('resRaftArea').innerText = raftArea.toFixed(1) + ' م² (' + raftWidth + '×' + raftLength + ' م)';
-            document.getElementById('resRaftPressure').innerText = actualPressure.toFixed(1) + ' kPa';
-            
-            let raftThick = 600;
-            if (stories > 12) raftThick = 1200;
-            else if (stories > 7) raftThick = 900;
-
-            document.getElementById('resRaftThick').innerText = raftThick + ' مم';
-            document.getElementById('resBotMesh').innerText = 'Φ 20 مم لكل 150 مم (اتجاهين)';
-            document.getElementById('resTopMesh').innerText = 'Φ 18 مم لكل 150 مم (اتجاهين)';
-
-            if (actualPressure <= allowablePressure) {
-                document.getElementById('resSoilStatus').innerText = '✅ حالة التربة: آمنة تماماً (الإجهاد الفعلي ' + actualPressure.toFixed(1) + ' kPa أقل من المسموح ' + allowablePressure + ' kPa)';
-                document.getElementById('resSoilStatus').style.borderColor = '#4ade80';
-            } else {
-                document.getElementById('resSoilStatus').innerText = '⚠️ حالة التربة: يتجاوز التحمل المسموح! يفضل زيادة أبعاد اللبشة أو تعديل نوع التأسيس.';
-                document.getElementById('resSoilStatus').style.borderColor = '#f87171';
-            }
-        }
-
-        // تشغيل الحسابات تلقائياً عند فتح الصفحة
-        calculateDesign();
-    </script>
+function perimeter(w, l) {
+    return 2 * (w + l);
+}
+</script>
 </body>
 </html>
